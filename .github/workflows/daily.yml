@@ -2,7 +2,7 @@ name: Daily Discord Message
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 12 * * *'
 
   workflow_dispatch:
 
@@ -15,17 +15,16 @@ jobs:
         run: |
           MESSAGE='{"content":"今日もない感じか"}'
 
-          curl -H "Content-Type: application/json" \
-          -X POST \
-          -d "$MESSAGE" \
-          ${{ secrets.DISCORD_WEBHOOK }}
+          WEBHOOKS=(
+            "${{ secrets.DISCORD_WEBHOOK }}"
+            "${{ secrets.DISCORD_WEBHOOK_2 }}"
+            "${{ secrets.DISCORD_WEBHOOK_3 }}"
+          )
 
-          curl -H "Content-Type: application/json" \
-          -X POST \
-          -d "$MESSAGE" \
-          ${{ secrets.DISCORD_WEBHOOK_2 }}
-
-          curl -H "Content-Type: application/json" \
-          -X POST \
-          -d "$MESSAGE" \
-          ${{ secrets.DISCORD_WEBHOOK_3 }}
+          for url in "${WEBHOOKS[@]}"
+          do
+            curl -H "Content-Type: application/json" \
+            -X POST \
+            -d "$MESSAGE" \
+            "$url"
+          done
