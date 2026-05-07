@@ -2,9 +2,6 @@ name: Daily Discord Message
 
 on:
   schedule:
-    # 毎日 日本時間 9:00
-    # GitHub ActionsはUTCなので
-    # JST 9:00 = UTC 0:00
     - cron: '0 0 * * *'
 
   workflow_dispatch:
@@ -14,9 +11,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send message to Discord
+      - name: Send message to Discord servers
         run: |
+          MESSAGE='{"content":"今日もない感じか"}'
+
           curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"content":"今日もない感じか"}' \
+          -d "$MESSAGE" \
           ${{ secrets.DISCORD_WEBHOOK }}
+
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "$MESSAGE" \
+          ${{ secrets.DISCORD_WEBHOOK_2 }}
+
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "$MESSAGE" \
+          ${{ secrets.DISCORD_WEBHOOK_3 }}
