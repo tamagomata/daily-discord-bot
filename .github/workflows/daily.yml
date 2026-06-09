@@ -1,30 +1,30 @@
-name: Daily Discord Message
-
-on:
-  schedule:
-    - cron: '0 12 * * *'
-
-  workflow_dispatch:
-
-jobs:
-  send-message:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Send message to Discord servers
-        run: |
-          MESSAGE='{"content":"今日もない感じか"}'
-
-          WEBHOOKS=(
-            "${{ secrets.DISCORD_WEBHOOK }}"
-            "${{ secrets.DISCORD_WEBHOOK_2 }}"
-            "${{ secrets.DISCORD_WEBHOOK_3 }}"
-          )
-
-          for url in "${WEBHOOKS[@]}"
-          do
-            curl -H "Content-Type: application/json" \
-            -X POST \
-            -d "$MESSAGE" \
-            "$url"
-          done
+#name: Daily Discord Message
+#
+#on:
+#  schedule:
+#    - cron: '0 12 * * *'
+#
+#  workflow_dispatch:
+#
+#jobs:
+#  send-message:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Send message to Discord servers
+#        run: |
+#          MESSAGE='{"content":"今日もない感じか"}'
+#
+#          WEBHOOKS=(
+#            "${{ secrets.DISCORD_WEBHOOK }}"
+#            "${{ secrets.DISCORD_WEBHOOK_2 }}"
+#            "${{ secrets.DISCORD_WEBHOOK_3 }}"
+#          )
+#
+#          for url in "${WEBHOOKS[@]}"
+#          do
+#            curl -H "Content-Type: application/json" \
+#            -X POST \
+#            -d "$MESSAGE" \
+#            "$url"
+#          done
